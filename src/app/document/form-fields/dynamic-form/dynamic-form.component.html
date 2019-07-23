@@ -1,0 +1,30 @@
+<p style="text-align:center;">
+  dynamic-form works {{ type }}!
+</p>
+
+<form class="normal-form" [formGroup]="form" (submit)="onSubmit($event)">
+
+  <ng-container 
+      *ngFor="let field of fields;" 
+      dynamicField 
+      [field]="field" 
+      [group]="form"
+  >
+  </ng-container>
+  
+
+  
+  <input placeholder="Select Image" (change)="onFilesAdded($event)" type="file" #file>
+    
+    
+
+  <div class="ain-center">
+    <button class="ain-button" 
+      [formGroup]="form" 
+      type="submit" 
+      mat-raised-button 
+      color="primary">Submit</button>    
+  </div>
+  
+
+</form>

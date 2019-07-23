@@ -1,0 +1,120 @@
+<div class="container">
+  <form  class="normal-form" (submit)="onSubmit()">
+
+    <div class="example-container">
+
+      <mat-form-field>
+        <mat-select placeholder="Document Type" [(ngModel)]="selectedValue" name="docType">
+          <mat-option *ngFor="let doc of documents" [value]="doc.value">
+            {{doc.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <p> Selected value: {{selectedValue}} </p>
+
+
+    <div class="example-container" *ngIf="selectedValue == 1">
+      
+      <mat-form-field>
+        <input matInput placeholder="Full Name" [formControl]="fullNameFormControl">
+        <mat-error *ngIf="fullNameFormControl.hasError('required')">
+          Full Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="dp" placeholder="Date of Birth" [formControl]="dateOfBirth">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+        <mat-error *ngIf="dateOfBirth.hasError('required')">
+          Date of Birth is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" matInput placeholder="NID Number" [formControl]="nidNoFormControl">
+        <mat-error *ngIf="nidNoFormControl.hasError('required')">
+          NID Number is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="nidNoFormControl.hasError('maxlength')">
+          Maximum Length is <strong>10</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+
+    <div class="example-container" *ngIf="selectedValue == 2">
+      
+      <mat-form-field>
+        <input matInput placeholder="Name(according to licence)" [formControl]="licenceNameFormControl">
+        <mat-error *ngIf="licenceNameFormControl.hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="dp" placeholder="Date of Birth" [formControl]="dateOfBirth">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+        <mat-error *ngIf="dateOfBirth.hasError('required')">
+          Date of Birth is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Licence Number" [formControl]="licenceNoFormControl">
+        <mat-error *ngIf="licenceNoFormControl.hasError('required')">
+          Licence Number is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="licenceNoFormControl.hasError('maxlength')">
+          Maximum Length is <strong>10</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="issue" placeholder="Issue Date" [formControl]="issueDate">
+        <mat-datepicker-toggle matSuffix [for]="issue"></mat-datepicker-toggle>
+        <mat-datepicker #issue></mat-datepicker>
+        <mat-error *ngIf="issueDate.hasError('required')">
+          Issue Date is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="expiary" placeholder="Expiary Date" [formControl]="expiaryDate">
+        <mat-datepicker-toggle matSuffix [for]="expiary"></mat-datepicker-toggle>
+        <mat-datepicker #expiary></mat-datepicker>
+        <mat-error *ngIf="expiaryDate.hasError('required')">
+          Expiary Date is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Issuing Authority" [formControl]="issueAuthority">
+        <mat-error *ngIf="issueAuthority.hasError('required')">
+          Issuing Authority is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+    
+    <div class="file-dropzone" *ngIf="selectedValue != null">
+      <input
+        class="file"
+        type="file"
+        #file
+        (change)="onFilesAdded($event)"
+      />
+    </div>
+    
+
+    <div style="text-align:center;">
+      <button mat-flat-button color="primary" type="button" (click)="uploadDocument()">Upload</button>
+    </div>
+
+
+    </div>
+    
+  </form>
+</div>

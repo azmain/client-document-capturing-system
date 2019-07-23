@@ -1,0 +1,53 @@
+
+<div class="container">
+
+  <p style="text-align:center;">
+    upload works!
+  </p>
+
+  <mat-form-field style="width:80%;">
+    <mat-select placeholder="Select Document Type" 
+        [(ngModel)]="selectedValue" 
+        name="docType"
+        (selectionChange)="eventSelection($event.value)">
+      <mat-option *ngFor="let doc of document_types" [value]="doc.id">
+        {{doc.typeName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+    
+  <div *ngIf="selectedValue != null">
+    
+    <dynamic-form 
+        class="ain-full-form" 
+        [type]="selectedType"
+        [fields]="document_properties" 
+        (submit)="submit($event)"
+        *ngIf="document_properties.length>0">
+    </dynamic-form>
+
+    <div class="margin-top" *ngIf="document_properties.length>0;else not_avaiable">
+      {{ document_properties | json }}
+    </div>
+
+    <ng-template #not_avaiable>
+      No Properties Available For This Configuration
+    </ng-template>
+    
+    
+
+  </div>
+
+  <ng-template #loading>
+    Loading User...
+  </ng-template>
+
+
+  <div class="margin-top">
+    
+  </div>
+
+</div>
+
+
