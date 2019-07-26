@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { FieldConfig } from "../shared/interface/form-field";
+import { DocumentType } from "../shared/interface/doc-types";
 import { DynamicFormComponent } from "../form-fields/dynamic-form/dynamic-form.component";
 import { DocumentTypesService } from '../document-types.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 
-export interface DocumentType {
-  oid: number;
-  type_name: string;
+export interface DocProperties{
+  properties
 }
 
 
@@ -23,16 +24,21 @@ export class UploadComponent implements OnInit {
 
   document_properties: FieldConfig[] = [];
 
-  selectedValue = null;
+  selectedValue:Number = null;
 
   selectedType: string = '';
+
+  uploading: boolean = false;
  
   @ViewChild(DynamicFormComponent) form: any;
 
-  constructor(private docTypeService: DocumentTypesService){
+  constructor(
+    private docTypeService: DocumentTypesService,
+    private router: Router){
     
       
   }
+
 
   ngOnInit(){
     this.docTypeService.getDocumentTypes()
@@ -43,17 +49,22 @@ export class UploadComponent implements OnInit {
   }
 
   
+  /**
+   * document type selection
+   * @param value 
+   */
   eventSelection(value){
 
-    console.log(value);
-    console.log("Try");
-    console.log(this.selectedValue);
-
     this.docTypeService.getDocumentProperties(this.selectedValue)
-      .subscribe((response:FieldConfig[]) => {
+      .subscribe((response:DocProperties[]) => {
         console.log(response);
-        this.selectedType = this.selectedValue + " For";
-        this.document_properties = response;
+        let docProps = response;
+        let allProps = [];
+        docProps.forEach(x => {
+          allProps.push(JSON.parse(x.properties));
+        });
+        this.selectedType = this.document_types.find(x => x.id == this.selectedValue).typeName;
+        this.document_properties = allProps;
         this.form = DynamicFormComponent;
       });
     
@@ -63,7 +74,19 @@ export class UploadComponent implements OnInit {
 
   submit(value: any) {
     console.log(value);
+    this.uploading = true;
     console.log(this.form.value);
+    const payload = new FormData();
+    payload.append('file',value.file);
+    payload.append('formData',JSON.stringify(value.formData));
+    this.docTypeService.uploadDocument(this.selectedValue,payload).subscribe((response: any) => {
+      console.log(response);
+      this.uploading = false;
+      
+      alert(response.message);
+
+      this.router.navigate(["/documents"]);     
+    });
   }
 
 }

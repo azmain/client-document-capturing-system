@@ -11,7 +11,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material';
-import {MatNativeDateModule} from '@angular/material'
+import {MatNativeDateModule} from '@angular/material';
+import {MatCardModule} from '@angular/material/card';
 
 import { IndexComponent } from './index/index.component';
 import { UploadComponent } from './upload/upload.component';
@@ -34,7 +35,8 @@ import { DynamicFieldDirective } from "../document/form-fields/dynamic-fields/dy
     MatDatepickerModule,
     MatGridListModule,
     MatButtonModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCardModule
   ],
   declarations: [
     IndexComponent,

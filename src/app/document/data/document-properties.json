@@ -1,0 +1,8 @@
+[
+    {
+        "properties": "{\"name\": \"name\", \"type\": \"input\", \"label\": \"name\", \"value\": null, \"inputType\": \"text\", \"validations\": [{\"name\": \"required\", \"message\": \"Name Required\", \"validator\": \"required\"}]}"
+    },
+    {
+        "properties": "{\"name\": \"dob\", \"type\": \"date\", \"label\": \"Date of Birth\", \"value\": null, \"inputType\": \"date\", \"validations\": [{\"name\": \"required\", \"message\": \"Date of Birth Required\", \"validator\": \"required\"}]}"
+    }
+]

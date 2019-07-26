@@ -4,6 +4,7 @@ import { map, catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Validators } from '@angular/forms';
 import { FieldConfig } from "../document/shared/interface/form-field";
+import { Properties } from './shared/interface/form-field-properties';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class DocumentTypesService {
 
   constructor(private http: HttpClient) { }
 
-  private url: string = "http://localhost:5000/api/document-types";
+  private url: string = "http://localhost:5000/api";
 
   documentTypes: Array<Object> = [
     {oid: 1, type_name: 'NID'},
@@ -102,10 +103,12 @@ export class DocumentTypesService {
     }
   ]
 
-  /* get all document types from server */
+  /**
+   * get all document types from server
+   */
   getDocumentTypes(){
     
-    return this.http.get(this.url)
+    return this.http.get(this.url+"/document-types")
               .pipe(
                 map(response => response),
                 timeout(6000),
@@ -114,42 +117,58 @@ export class DocumentTypesService {
     
   }
 
-
+  /**
+   * get all the properties related to the document type
+   * @param docId 
+   */
   getDocumentProperties(docId){
 
-    return this.http.get(this.url+"/"+ docId +"/properties")
+    return this.http.get(this.url+"/document-types/"+ docId +"/properties")
               .pipe(
-                map((response: Array<Object>) => {
-                  // console.log(response);
-                  let props = [];
-                  let res = response;
-                  res.forEach(e => {
-                    props.push(JSON.parse(e.properties));
-                  });
-                  console.log("Doc Type");
-                  console.log(props);
-                  // return this.dL;
-                  return props;
+                map((response) => response),
+                timeout(6000),
+                catchError(this.handleError)
+              );
+
+  }
+
+
+  /**
+   * upload the document
+   * @param docId 
+   * @param payload 
+   */
+  uploadDocument(docId, payload){
+
+    return this.http.post(this.url+"/document-types/"+ docId +"/documents", payload)
+              .pipe(
+                map(response => {
+                  return response;
                 }),
                 timeout(6000),
                 catchError(this.handleError)
               );
 
-    /* if(docId == 1){
-       
-    }
-    else{
-      return this.http.get("https://jsonplaceholder.typicode.com/todos")
-              .pipe(
-                map(response => this.dL),
-                timeout(6000),
-                catchError(this.handleError)
-              ); 
-    } */
-    
-
   }
 
+
+  getAllDocuments(){
+    return this.http.get(this.url+"/documents")
+      .pipe(
+        map(response => response),
+        timeout(3000),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteDocument(id){
+    return this.http.delete(this.url+"/documents/"+id)
+      .pipe(
+        map(response => response),
+        timeout(3000),
+        catchError(this.handleError)
+      );
+  }
 
   private handleError(error: HttpErrorResponse){
     console.log(error);

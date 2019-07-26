@@ -29,6 +29,8 @@ export class DynamicFormComponent implements OnInit, OnChanges{
 
   @Input() type?: string = "Not Selected";
 
+  @Input() uploading:boolean = false;
+
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
 
   document: File = null;
@@ -54,6 +56,11 @@ export class DynamicFormComponent implements OnInit, OnChanges{
   ngOnChanges(){
     console.log("Dynamic On changes");
     this.form = this.createControl();
+    this.document = null;
+
+    // console.log(this.form.value);
+    // console.log(this.document);
+    this.form.reset();
     
   }
 
@@ -69,7 +76,7 @@ export class DynamicFormComponent implements OnInit, OnChanges{
   onSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.form.valid) {
+    if (this.form.valid && this.document) {
       let document = {
         formData : this.form.value,
         file: this.document
@@ -77,6 +84,7 @@ export class DynamicFormComponent implements OnInit, OnChanges{
       this.submit.emit(document);
     } else {
       this.validateAllFormFields(this.form);
+      alert("Please select image to upload");
     }
   }
 

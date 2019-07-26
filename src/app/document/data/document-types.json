@@ -1,0 +1,14 @@
+[
+    {
+        "createdAt": "2019-07-23T23:24:51Z",
+        "updatedAt": "2019-07-23T23:24:58Z",
+        "id": 1,
+        "typeName": "National ID"
+    },
+    {
+        "createdAt": "2019-07-23T23:24:51Z",
+        "updatedAt": "2019-07-23T23:24:58Z",
+        "id": 2,
+        "typeName": "Driving Licence"
+    }
+]

@@ -1,3 +1,49 @@
-<p>
-  index works!
+
+<div class="container">
+
+<div style="text-align:center">
+  <h1>
+    Document Capturing System 
+  </h1>
+</div>
+
+<p style="text-align:center;">
+  List Of Documents Uploaded
 </p>
+
+<a routerLink="/documents/upload">
+<button mat-flat-button color="primary">Upload New</button>
+</a>
+
+<br>
+
+
+<ng-container *ngFor="let doc of documents">
+  <mat-card class="document-card">
+    <mat-card-header>
+      <div mat-card-avatar class="document-image"></div>
+      <mat-card-title>{{ doc.type }}</mat-card-title>
+      <mat-card-subtitle>{{ doc.createdAt }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="/src/assets/img/{{doc.imagePath}}" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+
+      <ng-container *ngFor="let key of Object.keys(doc.data)">
+        <p>
+          <strong>{{ key }}</strong> - {{ doc.data[key] }}
+        </p>
+      </ng-container>
+    </mat-card-content>
+
+    <mat-card-actions class="document-action">
+      <button mat-flat-button color="primary">Edit</button>
+      <button mat-flat-button color="warn" (click)="deleteDocument(doc.id)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
+
+
+
+
+</div>
+

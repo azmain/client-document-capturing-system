@@ -1,5 +1,5 @@
 <p style="text-align:center;">
-  dynamic-form works {{ type }}!
+  Upload {{ type }}!
 </p>
 
 <form class="normal-form" [formGroup]="form" (submit)="onSubmit($event)">
@@ -13,17 +13,27 @@
   </ng-container>
   
 
+  <br>
+  <div class="image-upload">
   
-  <input placeholder="Select Image" (change)="onFilesAdded($event)" type="file" #file>
+  <input placeholder="Select Image" 
+    (input)="onFilesAdded($event)" 
+    accept="image/jpeg"
+    type="file" #file>
+    
+  </div>
+  
     
     
+  <br><br>
 
   <div class="ain-center">
     <button class="ain-button" 
       [formGroup]="form" 
       type="submit" 
       mat-raised-button 
-      color="primary">Submit</button>    
+      [disabled]="uploading"
+      color="primary">{{ uploading?'Uploading':'Upload' }}</button>    
   </div>
   
 
